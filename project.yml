@@ -1,0 +1,44 @@
+name: FolderFlow
+options:
+  deploymentTarget:
+    macOS: "13.0"
+packages:
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk.git
+    exactVersion: 12.19.3
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS.git
+    exactVersion: 10.0.0
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    OTHER_SWIFT_FLAGS: "$(inherited) -parse-as-library"
+    OTHER_LDFLAGS: "$(inherited) -ObjC"
+targets:
+  FolderFlow:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sources/FolderFlow
+        excludes: [Resources]
+      - path: Sources/FolderFlow/Resources
+        excludes: [FolderFlow.iconset, .DS_Store]
+        buildPhase: resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.unshapedstudio.folderflow
+        DEVELOPMENT_TEAM: 7Q6Q43JCAB
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_ENTITLEMENTS: Configuration/FolderFlow.entitlements
+        ENABLE_HARDENED_RUNTIME: YES
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: Configuration/Info.plist
+    dependencies:
+      - package: Firebase
+        product: FirebaseAuth
+      - package: Firebase
+        product: FirebaseFirestore
+      - package: GoogleSignIn
+        product: GoogleSignIn
+      - package: GoogleSignIn
+        product: GoogleSignInSwift

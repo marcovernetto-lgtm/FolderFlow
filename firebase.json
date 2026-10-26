@@ -1,0 +1,14 @@
+{
+  "firestore": {
+    "rules": "Backend/firestore.rules"
+  },
+  "emulators": {
+    "firestore": {
+      "port": 16880
+    },
+    "ui": {
+      "enabled": false
+    },
+    "singleProjectMode": true
+  }
+}

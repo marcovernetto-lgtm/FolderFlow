@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function owns(uid) { return request.auth != null && request.auth.uid == uid; }
+    function validValue() {
+      return request.resource.data.keys().hasOnly(['payload', 'revision', 'mutationID', 'deleted', 'updatedAt'])
+        && request.resource.data.payload is bytes && request.resource.data.payload.size() < 700000
+        && request.resource.data.revision is int && request.resource.data.revision > 0
+        && request.resource.data.mutationID is string && request.resource.data.mutationID.size() == 36
+        && request.resource.data.deleted is bool
+        && request.resource.data.updatedAt == request.time;
+    }
+    match /users/{uid}/backups/{catalogID} {
+      allow read: if owns(uid);
+      allow create, update: if owns(uid) && request.resource.data.keys().hasOnly(['updatedAt'])
+        && request.resource.data.updatedAt == request.time;
+      match /versions/{versionID} {
+        function expiredCopy() { return resource.data.createdAt < request.time - duration.value(60, 'd'); }
+        allow read: if owns(uid);
+        allow create: if owns(uid)
+          && request.resource.data.keys().hasOnly(['createdAt','format','rawSize','compressedSize','chunkCount','checksum','projectCount'])
+          && request.resource.data.createdAt == request.time && request.resource.data.format == 1
+          && request.resource.data.rawSize is int && request.resource.data.rawSize > 0 && request.resource.data.rawSize <= 67108864
+          && request.resource.data.compressedSize is int && request.resource.data.compressedSize > 0 && request.resource.data.compressedSize <= 8388608
+          && request.resource.data.chunkCount is int && request.resource.data.chunkCount > 0 && request.resource.data.chunkCount <= 16
+          && request.resource.data.checksum is string && request.resource.data.checksum.matches('^[0-9a-f]{64}$')
+          && request.resource.data.projectCount is int && request.resource.data.projectCount >= 0;
+        allow delete: if owns(uid) && expiredCopy();
+        match /chunks/{chunkID} {
+          function manifest() { return getAfter(/databases/$(database)/documents/users/$(uid)/backups/$(catalogID)/versions/$(versionID)).data; }
+          allow read: if owns(uid);
+          allow create: if owns(uid) && chunkID.matches('^[0-9]{1,2}$')
+            && request.resource.data.keys().hasOnly(['index','payload'])
+            && request.resource.data.index == int(chunkID) && request.resource.data.index >= 0
+            && request.resource.data.index < manifest().chunkCount && manifest().createdAt == request.time
+            && request.resource.data.payload is bytes && request.resource.data.payload.size() > 0 && request.resource.data.payload.size() <= 600000;
+          allow delete: if owns(uid)
+            && get(/databases/$(database)/documents/users/$(uid)/backups/$(catalogID)/versions/$(versionID)).data.createdAt < request.time - duration.value(60, 'd');
+        }
+      }
+    }
+    match /users/{uid}/settings/preferences {
+      allow read: if owns(uid);
+      allow create: if owns(uid) && validValue() && request.resource.data.revision == 1 && !request.resource.data.deleted;
+      allow update: if owns(uid) && validValue() && request.resource.data.revision == resource.data.revision + 1 && !request.resource.data.deleted;
+    }
+    match /users/{uid}/catalogs/{catalogID} {
+      allow read: if owns(uid);
+      allow create: if owns(uid) && validValue() && request.resource.data.revision == 1 && !request.resource.data.deleted;
+      allow update: if owns(uid) && validValue() && request.resource.data.revision == resource.data.revision + 1 && !request.resource.data.deleted;
+      match /projects/{projectID} {
+        allow read: if owns(uid);
+        allow create: if owns(uid) && validValue() && request.resource.data.revision == 1
+          && exists(/databases/$(database)/documents/users/$(uid)/catalogs/$(catalogID));
+        allow update: if owns(uid) && validValue() && request.resource.data.revision == resource.data.revision + 1;
+      }
+    }
+  }
+}

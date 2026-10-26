@@ -1,0 +1,442 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1BAB5FEAFE2FE8495B351E22 /* CatalogManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D296C6256BC94ED923D0A65 /* CatalogManagementView.swift */; };
+		1D4C98CADF4EB32F1C67D6E5 /* ProjectNaming.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1051EF5109B029EB1927866 /* ProjectNaming.swift */; };
+		209D1B72E27CF051FAABB8E9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 839B9E8CAA2DF6D8EE7A008E /* GoogleService-Info.plist */; };
+		214BC2EC872821F2D20729AA /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 3A9830479232558F256D80F0 /* FirebaseFirestore */; };
+		26798D94CB4D1190742315D3 /* ProjectNamingSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C995B547AE1E43F5329CA7 /* ProjectNamingSettingsView.swift */; };
+		2BCA5E75CA6A2193E9C5336C /* app_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C488F49B5A979C8D7301AC9E /* app_icon.png */; };
+		3316991258D3CFD3A10DD220 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C1B79659266D7DE11DDE118D /* FirebaseAuth */; };
+		38660067E2473AA4498E36BC /* CloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3371F24CB888D6C4C9D2663 /* CloudService.swift */; };
+		41273D503AE831FA0541A0F0 /* CatalogViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05A72175B7436162EAE8D7A0 /* CatalogViews.swift */; };
+		4C045C53DF6E017B4B4DFA1D /* CatalogArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4427AC69249EDA20DD4A52E4 /* CatalogArchive.swift */; };
+		50EC7D77E698B9FF24E08099 /* LegacyPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE157B4FA26A31E53DC5ACD0 /* LegacyPreferences.swift */; };
+		5F07FDAB7BC765EA731C6024 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D2372A2614325A45A52B177C /* GoogleSignInSwift */; };
+		62EE5928A1C38B7E2263A7F8 /* CatalogWorkspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77F61607656AA612814EFE24 /* CatalogWorkspace.swift */; };
+		7B3CF852BE13C442845EB80D /* CloudBackupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6397C1571281CD19F9A5ACB5 /* CloudBackupService.swift */; };
+		A94ABCA622B9D9B046A1B247 /* FolderFlow.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7AAC0663FA8A0D1B4004D298 /* FolderFlow.icns */; };
+		AAEFC6FF1CD7C8A5EC0AB818 /* CloudCatalogBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 452F50263EBC7450D0F7851D /* CloudCatalogBackup.swift */; };
+		B638B6385ED9210E1719A44B /* CatalogTransfer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F467A53DC2CF42F47DEC6221 /* CatalogTransfer.swift */; };
+		D7B840ECCD8ACE50CBC516C9 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8037777B37E635999E5B8D1 /* main.swift */; };
+		DC745F1AAD776C0EEFFF980B /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = A7777C489CD3BA4643FEE04D /* GoogleSignIn */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		05A72175B7436162EAE8D7A0 /* CatalogViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogViews.swift; sourceTree = "<group>"; };
+		14C995B547AE1E43F5329CA7 /* ProjectNamingSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNamingSettingsView.swift; sourceTree = "<group>"; };
+		4427AC69249EDA20DD4A52E4 /* CatalogArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogArchive.swift; sourceTree = "<group>"; };
+		452F50263EBC7450D0F7851D /* CloudCatalogBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudCatalogBackup.swift; sourceTree = "<group>"; };
+		4D296C6256BC94ED923D0A65 /* CatalogManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogManagementView.swift; sourceTree = "<group>"; };
+		6397C1571281CD19F9A5ACB5 /* CloudBackupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBackupService.swift; sourceTree = "<group>"; };
+		77F61607656AA612814EFE24 /* CatalogWorkspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogWorkspace.swift; sourceTree = "<group>"; };
+		7AAC0663FA8A0D1B4004D298 /* FolderFlow.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = FolderFlow.icns; sourceTree = "<group>"; };
+		839B9E8CAA2DF6D8EE7A008E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A1051EF5109B029EB1927866 /* ProjectNaming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectNaming.swift; sourceTree = "<group>"; };
+		BE157B4FA26A31E53DC5ACD0 /* LegacyPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LegacyPreferences.swift; sourceTree = "<group>"; };
+		C23A199A277B2D54CC72FA1E /* FolderFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FolderFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3371F24CB888D6C4C9D2663 /* CloudService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudService.swift; sourceTree = "<group>"; };
+		C488F49B5A979C8D7301AC9E /* app_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = app_icon.png; sourceTree = "<group>"; };
+		C8037777B37E635999E5B8D1 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		F467A53DC2CF42F47DEC6221 /* CatalogTransfer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatalogTransfer.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1A811A1D533965A81CC4BA44 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3316991258D3CFD3A10DD220 /* FirebaseAuth in Frameworks */,
+				214BC2EC872821F2D20729AA /* FirebaseFirestore in Frameworks */,
+				DC745F1AAD776C0EEFFF980B /* GoogleSignIn in Frameworks */,
+				5F07FDAB7BC765EA731C6024 /* GoogleSignInSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1D254820CFD3C76CA68E7906 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C23A199A277B2D54CC72FA1E /* FolderFlow.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2BEF85702DA9BD2500662EAF /* FolderFlow */ = {
+			isa = PBXGroup;
+			children = (
+				4427AC69249EDA20DD4A52E4 /* CatalogArchive.swift */,
+				4D296C6256BC94ED923D0A65 /* CatalogManagementView.swift */,
+				F467A53DC2CF42F47DEC6221 /* CatalogTransfer.swift */,
+				05A72175B7436162EAE8D7A0 /* CatalogViews.swift */,
+				77F61607656AA612814EFE24 /* CatalogWorkspace.swift */,
+				6397C1571281CD19F9A5ACB5 /* CloudBackupService.swift */,
+				452F50263EBC7450D0F7851D /* CloudCatalogBackup.swift */,
+				C3371F24CB888D6C4C9D2663 /* CloudService.swift */,
+				BE157B4FA26A31E53DC5ACD0 /* LegacyPreferences.swift */,
+				C8037777B37E635999E5B8D1 /* main.swift */,
+				A1051EF5109B029EB1927866 /* ProjectNaming.swift */,
+				14C995B547AE1E43F5329CA7 /* ProjectNamingSettingsView.swift */,
+			);
+			name = FolderFlow;
+			path = Sources/FolderFlow;
+			sourceTree = "<group>";
+		};
+		7D5168DA709D893A8DCAFB1B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C488F49B5A979C8D7301AC9E /* app_icon.png */,
+				7AAC0663FA8A0D1B4004D298 /* FolderFlow.icns */,
+				839B9E8CAA2DF6D8EE7A008E /* GoogleService-Info.plist */,
+			);
+			name = Resources;
+			path = Sources/FolderFlow/Resources;
+			sourceTree = "<group>";
+		};
+		A8C914D00F37C3BD72C1C5EE = {
+			isa = PBXGroup;
+			children = (
+				2BEF85702DA9BD2500662EAF /* FolderFlow */,
+				7D5168DA709D893A8DCAFB1B /* Resources */,
+				1D254820CFD3C76CA68E7906 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DCC5AB1D7F3159F5EFF147B2 /* FolderFlow */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3DF2101E9AA1DE015939986E /* Build configuration list for PBXNativeTarget "FolderFlow" */;
+			buildPhases = (
+				C3C04C42D518846ED05AD89E /* Sources */,
+				E2CFB3EE751F4402FBF0EFE7 /* Resources */,
+				1A811A1D533965A81CC4BA44 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FolderFlow;
+			packageProductDependencies = (
+				C1B79659266D7DE11DDE118D /* FirebaseAuth */,
+				3A9830479232558F256D80F0 /* FirebaseFirestore */,
+				A7777C489CD3BA4643FEE04D /* GoogleSignIn */,
+				D2372A2614325A45A52B177C /* GoogleSignInSwift */,
+			);
+			productName = FolderFlow;
+			productReference = C23A199A277B2D54CC72FA1E /* FolderFlow.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1F9EE999E3F209836CF8BB13 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					DCC5AB1D7F3159F5EFF147B2 = {
+						DevelopmentTeam = 7Q6Q43JCAB;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 7F77C2E5772885ED6FE33161 /* Build configuration list for PBXProject "FolderFlow" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = A8C914D00F37C3BD72C1C5EE;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				6E12035618920EBB27CCD959 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				9E907285EA7097AA9E9760D9 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 1D254820CFD3C76CA68E7906 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DCC5AB1D7F3159F5EFF147B2 /* FolderFlow */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E2CFB3EE751F4402FBF0EFE7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A94ABCA622B9D9B046A1B247 /* FolderFlow.icns in Resources */,
+				209D1B72E27CF051FAABB8E9 /* GoogleService-Info.plist in Resources */,
+				2BCA5E75CA6A2193E9C5336C /* app_icon.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C3C04C42D518846ED05AD89E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C045C53DF6E017B4B4DFA1D /* CatalogArchive.swift in Sources */,
+				1BAB5FEAFE2FE8495B351E22 /* CatalogManagementView.swift in Sources */,
+				B638B6385ED9210E1719A44B /* CatalogTransfer.swift in Sources */,
+				41273D503AE831FA0541A0F0 /* CatalogViews.swift in Sources */,
+				62EE5928A1C38B7E2263A7F8 /* CatalogWorkspace.swift in Sources */,
+				7B3CF852BE13C442845EB80D /* CloudBackupService.swift in Sources */,
+				AAEFC6FF1CD7C8A5EC0AB818 /* CloudCatalogBackup.swift in Sources */,
+				38660067E2473AA4498E36BC /* CloudService.swift in Sources */,
+				50EC7D77E698B9FF24E08099 /* LegacyPreferences.swift in Sources */,
+				1D4C98CADF4EB32F1C67D6E5 /* ProjectNaming.swift in Sources */,
+				26798D94CB4D1190742315D3 /* ProjectNamingSettingsView.swift in Sources */,
+				D7B840ECCD8ACE50CBC516C9 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3A2E0E88918C116D4FC1A2D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Configuration/FolderFlow.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 7Q6Q43JCAB;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Configuration/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.unshapedstudio.folderflow;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		B62F712ED73D87C370275535 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Configuration/FolderFlow.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 7Q6Q43JCAB;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Configuration/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.unshapedstudio.folderflow;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D50F678D51583C724DD72271 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "$(inherited) -ObjC";
+				OTHER_SWIFT_FLAGS = "$(inherited) -parse-as-library";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		EE7D84FC47CA1100E9BC941C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = "$(inherited) -ObjC";
+				OTHER_SWIFT_FLAGS = "$(inherited) -parse-as-library";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3DF2101E9AA1DE015939986E /* Build configuration list for PBXNativeTarget "FolderFlow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B62F712ED73D87C370275535 /* Debug */,
+				3A2E0E88918C116D4FC1A2D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7F77C2E5772885ED6FE33161 /* Build configuration list for PBXProject "FolderFlow" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D50F678D51583C724DD72271 /* Debug */,
+				EE7D84FC47CA1100E9BC941C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6E12035618920EBB27CCD959 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = exactVersion;
+				version = 12.19.3;
+			};
+		};
+		9E907285EA7097AA9E9760D9 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
+			requirement = {
+				kind = exactVersion;
+				version = 10.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3A9830479232558F256D80F0 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E12035618920EBB27CCD959 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		A7777C489CD3BA4643FEE04D /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E907285EA7097AA9E9760D9 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		C1B79659266D7DE11DDE118D /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6E12035618920EBB27CCD959 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		D2372A2614325A45A52B177C /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E907285EA7097AA9E9760D9 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 1F9EE999E3F209836CF8BB13 /* Project object */;
+}

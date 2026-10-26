@@ -1,0 +1,12 @@
+BACKUP_*/
+.build/
+installer/
+*.app/
+.previews/
+
+Backend/node_modules/
+Releases/
+graphify-out/
+.git/
+dist/
+artifacts/
