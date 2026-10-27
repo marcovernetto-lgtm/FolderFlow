@@ -30,6 +30,16 @@ let package = Package(
             ],
             linkerSettings: [.unsafeFlags(["-Xlinker", "-ObjC"])]
         ),
-        .testTarget(name: "FolderFlowTests", dependencies: ["FolderFlow"])
+        .testTarget(name: "FolderFlowTests", dependencies: ["FolderFlow"]),
+        .executableTarget(
+            name: "DistributionSmoke",
+            dependencies: [
+                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
+                .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS")
+            ],
+            path: "Tests/DistributionSmoke",
+            swiftSettings: [.unsafeFlags(["-parse-as-library"])],
+            linkerSettings: [.unsafeFlags(["-Xlinker", "-ObjC"])]
+        )
     ]
 )

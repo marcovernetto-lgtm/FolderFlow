@@ -40,6 +40,8 @@ def package(app, output):
     details = subprocess.run(["codesign", "-dv", str(app)], capture_output=True, text=True, check=True).stderr
     signing["developerID"] = "Authority=Developer ID Application:" in details
     signing["publicDistributionReady"] = signing["developerID"] and signing["notarized"] and not profile.exists()
+    signing["localSignature"] = "Signature=adhoc" in details
+    signing["requiresGatekeeperApproval"] = not signing["notarized"]
 
     output.mkdir(parents=True, exist_ok=True)
     stem = f"FolderFlow-{version}-universal"
@@ -49,14 +51,18 @@ def package(app, output):
     if any(p.exists() for p in [dmg, archive, sums, manifest]):
         raise FileExistsError("Release files already exist. Choose a new output directory.")
 
-    notice = (
-        "FolderFlow — anteprima di sviluppo\n\n"
-        "Questa build non è notarizzata per la distribuzione pubblica.\n"
-        "La firma di sviluppo può limitare i Mac autorizzati e ha una scadenza.\n"
-        "Sugli altri Mac compilare i sorgenti in Xcode con il proprio team Apple.\n"
-        "Non sono inclusi cataloghi personali, sessioni di accesso o credenziali amministrative.\n\n"
-        "Sorgenti e istruzioni: https://github.com/marcovernetto-lgtm/FolderFlow\n"
-    )
+    if profile.exists():
+        notice = "FolderFlow — build di sviluppo riservata ai dispositivi registrati.\n"
+    else:
+        notice = (
+            "FolderFlow\n\n"
+            "Trascina FolderFlow nella cartella Applicazioni, poi aprila.\n"
+            "Questa versione non è notarizzata da Apple. Se macOS la blocca, vai in\n"
+            "Impostazioni di Sistema > Privacy e sicurezza > Apri comunque.\n\n"
+            "Accedi con il tuo account oppure continua sul Mac. Il catalogo iniziale è vuoto.\n"
+            "Non sono inclusi cataloghi personali, sessioni, certificati o credenziali dell'autore.\n"
+            "Guida: https://github.com/marcovernetto-lgtm/FolderFlow\n"
+        )
     if signing.get("profileExpiresAt"):
         notice += "Scadenza profilo di questa build (UTC): " + signing["profileExpiresAt"] + "\n"
     with tempfile.TemporaryDirectory(prefix="folderflow-package-") as folder:

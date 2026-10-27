@@ -8,7 +8,15 @@ Organizza progetti fotografici e video, ritrova le cartelle e tieni sotto contro
 
 ## Scarica FolderFlow
 
-Il download per macOS è in preparazione. L'app verrà fornita pronta da aprire, senza doverla compilare.
+### [Scarica FolderFlow per macOS (.DMG)](https://github.com/marcovernetto-lgtm/FolderFlow/releases/download/v5.1.5/FolderFlow-5.1.5-universal.dmg)
+
+1. Apri il file DMG.
+2. Trascina **FolderFlow** in **Applicazioni**.
+3. Apri l'app e scegli i tuoi dischi.
+
+Compatibile con macOS 13 o successivo, su Apple Silicon e Intel. Puoi accedere con il tuo account oppure continuare sul Mac.
+
+Al primo avvio macOS potrebbe bloccarla perché non è certificata da Apple: dopo aver provato ad aprirla, vai in **Impostazioni di Sistema → Privacy e sicurezza → Apri comunque**.
 
 ## Il tuo archivio a colpo d'occhio
 
