@@ -249,7 +249,7 @@ final class CatalogWorkspace: ObservableObject {
 
     private func record(_ project: VideoProject, previous: CatalogProject?) -> CatalogProject {
         var location = previous
-        if previous == nil || (previous?.sourceDeviceID == deviceID && manager.localProjectIDs?.contains(project.id) != false && !project.path.hasPrefix("/__folderflow_remote__/")) {
+        if previous == nil || ((previous?.sourceDeviceID == deviceID || active?.device.projectPaths[project.id.uuidString] != project.path) && manager.localProjectIDs?.contains(project.id) != false && !project.path.hasPrefix("/__folderflow_remote__/")) {
             let url = URL(fileURLWithPath: project.path)
             let resources = try? url.resourceValues(forKeys: [.volumeUUIDStringKey, .volumeURLKey])
             let volumeRoot = resources?.volume ?? (project.path.hasPrefix("/Volumes/") ? URL(fileURLWithPath: "/Volumes/" + project.volumeIdentifier) : URL(fileURLWithPath: "/"))

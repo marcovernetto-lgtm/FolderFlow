@@ -169,15 +169,56 @@ func calculateFolderSizeInGB(atPath path: String) -> Double {
     return Double(totalBytes) / (1024.0 * 1024.0 * 1024.0)
 }
 
-// Avvia l'app SecureCopy e copia il percorso della cartella progetto negli appunti
+struct SecureCopyRelease: Decodable {
+    struct Asset: Decodable {
+        let name: String
+        let browser_download_url: URL
+    }
+    let assets: [Asset]
+
+    func downloadURL(architecture: String) -> URL? {
+        assets.first { asset in
+            let url = asset.browser_download_url
+            return asset.name.hasSuffix("-\(architecture).dmg") && url.scheme == "https"
+                && url.host == "github.com" && url.path.hasPrefix("/marcovernetto-lgtm/SecureCopy/releases/download/")
+        }?.browser_download_url
+    }
+}
+
+private func offerSecureCopyDownload(dataManager: DataManager?) {
+    Task { @MainActor in
+        do {
+            var request = URLRequest(url: URL(string: "https://api.github.com/repos/marcovernetto-lgtm/SecureCopy/releases/latest")!)
+            request.timeoutInterval = 20
+            request.setValue("FolderFlow", forHTTPHeaderField: "User-Agent")
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw URLError(.badServerResponse) }
+            let release = try JSONDecoder().decode(SecureCopyRelease.self, from: data)
+            #if arch(arm64)
+            let architecture = "arm64"
+            #else
+            let architecture = "x64"
+            #endif
+            guard let url = release.downloadURL(architecture: architecture) else { throw URLError(.fileDoesNotExist) }
+            let alert = NSAlert()
+            alert.messageText = "SecureCopy non è installata"
+            alert.informativeText = "Vuoi scaricarla? Il download verrà aperto nel browser dal link ufficiale:\n\n\(url.absoluteString)\n\nDopo averla installata, premi di nuovo Avvia Copia Sicura."
+            alert.addButton(withTitle: "Sì, scarica")
+            alert.addButton(withTitle: "Annulla")
+            guard alert.runModal() == .alertFirstButtonReturn else { return }
+            if !NSWorkspace.shared.open(url) {
+                dataManager?.showError("Impossibile aprire il download di SecureCopy. Controlla il browser predefinito e riprova.")
+            }
+        } catch {
+            dataManager?.showError("Impossibile recuperare il download di SecureCopy. Controlla la connessione e riprova. \(error.localizedDescription)")
+        }
+    }
+}
+
+// L’ingresso da FolderFlow prepara la copia senza avviare trasferimenti.
 func launchSecureCopy(for projectPath: String, dataManager: DataManager? = nil) {
-    // Copia il percorso di destinazione negli appunti per incollarlo rapidamente se necessario
-    let pasteboard = NSPasteboard.general
-    pasteboard.clearContents()
-    pasteboard.setString(projectPath, forType: .string)
-    
     let workspace = NSWorkspace.shared
-    let bundleID = "com.marcovernetto.securecopier"
+    let bundleID = "com.unshapedstudio.securecopy"
     
     let candidatePaths = [
         "/Applications/SecureCopy.app",
@@ -188,15 +229,15 @@ func launchSecureCopy(for projectPath: String, dataManager: DataManager? = nil) 
     let resolvedAppURL: URL? = workspace.urlForApplication(withBundleIdentifier: bundleID)
         ?? candidatePaths.map { URL(fileURLWithPath: $0) }.first { FileManager.default.fileExists(atPath: $0.path) }
     
-    guard let appURL = resolvedAppURL else {
-        dataManager?.showError("App SecureCopy non trovata in /Applications/SecureCopy.app")
+    guard let appURL = resolvedAppURL, FileManager.default.fileExists(atPath: appURL.path) else {
+        offerSecureCopyDownload(dataManager: dataManager)
         return
     }
     
     let config = NSWorkspace.OpenConfiguration()
     config.activates = true
-    config.arguments = ["--destination", projectPath]
-    config.environment = ["SECURECOPY_DESTINATION": projectPath]
+    config.createsNewApplicationInstance = true
+    config.arguments = ["--from-folderflow", "--destination", projectPath]
     
     workspace.openApplication(at: appURL, configuration: config) { _, error in
         if let error = error {
@@ -998,6 +1039,36 @@ class DataManager: ObservableObject {
         }
     }
     
+    @discardableResult
+    func relinkProject(_ projectID: UUID, to folder: URL) -> Bool {
+        guard let index = projects.firstIndex(where: { $0.id == projectID }) else { return false }
+        let url = folder.standardizedFileURL.resolvingSymlinksInPath()
+        guard url.isFileURL,
+              let values = try? url.resourceValues(forKeys: [.isDirectoryKey, .isReadableKey, .volumeNameKey]),
+              values.isDirectory == true, values.isReadable == true else {
+            showError("Seleziona una cartella progetto esistente e accessibile.")
+            return false
+        }
+        guard !projects.contains(where: {
+            $0.id != projectID && URL(fileURLWithPath: $0.path).standardizedFileURL.resolvingSymlinksInPath() == url
+        }) else {
+            showError("Questa cartella è già collegata a un altro progetto nel catalogo.")
+            return false
+        }
+        projects[index].path = url.path
+        projects[index].volumeIdentifier = values.volumeName ?? url.lastPathComponent
+        projects[index].isOnline = true
+        projects[index].isMissing = false
+        projects[index].folderSize = 0
+        projects[index].folderContents = (try? FileManager.default.contentsOfDirectory(atPath: url.path)) ?? []
+        projects[index].isAnalyzed = false
+        localProjectIDs?.insert(projectID)
+        assignVolumeColors()
+        saveData()
+        updateProjectFolderSize(for: projectID)
+        return true
+    }
+
     func deleteProject(_ project: VideoProject) {
         if let index = projects.firstIndex(where: { $0.id == project.id }) {
             projects.remove(at: index)
@@ -1015,7 +1086,7 @@ class DataManager: ObservableObject {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let size = calculateFolderSizeInGB(atPath: path)
             DispatchQueue.main.async {
-                guard let self = self, self.catalogSession == session, let idx = self.projects.firstIndex(where: { $0.id == projectId }) else { return }
+                guard let self = self, self.catalogSession == session, let idx = self.projects.firstIndex(where: { $0.id == projectId && $0.path == path }) else { return }
                 if abs(self.projects[idx].folderSize - size) > 0.001 || !self.projects[idx].isAnalyzed {
                     self.projects[idx].folderSize = size
                     self.projects[idx].isAnalyzed = true
@@ -2898,7 +2969,6 @@ struct ProjectDetailView: View {
     let project: VideoProject
     @EnvironmentObject var dataManager: DataManager
     var onDelete: (() -> Void)? = nil
-    @State private var secureCopyFeedback = false
     
     var body: some View {
         let isEmptyFolder = isProjectFolderEmpty(project)
@@ -2958,31 +3028,25 @@ struct ProjectDetailView: View {
 
                         Spacer()
 
-                        if project.isMissing {
-                            Button(action: {
-                                onDelete?()
-                                dataManager.deleteProject(project)
-                            }) {
-                                HStack(spacing: 6) {
-                                    Image(systemName: "trash.fill")
-                                    Text("Elimina dal Catalogo")
+                        if !project.isOnline || project.isMissing {
+                            VStack(alignment: .trailing, spacing: 10) {
+                                Button(action: relinkFolder) {
+                                    Label("Ricollega cartella…", systemImage: "link")
                                 }
+                                .buttonStyle(ModernButtonStyle(color: StudioTheme.accent, isPrimary: true))
+                                Button(action: {
+                                    onDelete?()
+                                    dataManager.deleteProject(project)
+                                }) {
+                                    HStack(spacing: 6) {
+                                        Image(systemName: "trash.fill")
+                                        Text("Elimina dal Catalogo")
+                                    }
+                                }
+                                .buttonStyle(ModernButtonStyle(color: StudioTheme.red, isPrimary: true))
                             }
-                            .buttonStyle(ModernButtonStyle(color: StudioTheme.red, isPrimary: true))
                         } else if project.isOnline {
                             HStack(spacing: 10) {
-                                if isEmptyFolder {
-                                    Button(action: {
-                                        triggerSecureCopy()
-                                    }) {
-                                        HStack(spacing: 6) {
-                                            Image(systemName: "externaldrive.badge.checkmark")
-                                            Text("Avvia Copia Sicura")
-                                        }
-                                    }
-                                    .buttonStyle(ModernButtonStyle(color: StudioTheme.green, isPrimary: true))
-                                }
-                                
                                 Button(action: {
                                     openProjectFolder(project: project)
                                 }) {
@@ -3028,17 +3092,9 @@ struct ProjectDetailView: View {
                                     .font(.system(size: 14.5, weight: .bold))
                                     .foregroundColor(StudioTheme.text)
                                 
-                                if secureCopyFeedback {
-                                    Text("✓ Percorso copiato • SecureCopy avviata")
-                                        .font(.system(size: 10.5, weight: .semibold))
-                                        .foregroundColor(StudioTheme.green)
-                                        .padding(.horizontal, 8)
-                                        .padding(.vertical, 2)
-                                        .background(Capsule().fill(StudioTheme.green.opacity(0.22)))
-                                }
                             }
                             
-                            Text("La cartella è vuota. Avvia SecureCopy per copiare le schede: il percorso di destinazione verrà copiato negli appunti.")
+                            Text("La cartella è vuota. Avvia SecureCopy per copiare le schede: la destinazione sarà già impostata nella schermata Copia sicura.")
                                 .font(.system(size: 11.5))
                                 .foregroundColor(.white.opacity(0.75))
                                 .fixedSize(horizontal: false, vertical: true)
@@ -3152,12 +3208,22 @@ struct ProjectDetailView: View {
         NSWorkspace.shared.open(url)
     }
     
+    private func relinkFolder() {
+        let panel = NSOpenPanel()
+        panel.title = "Ricollega progetto"
+        panel.message = "Seleziona la cartella di questo progetto nella nuova posizione. I file non verranno spostati."
+        panel.prompt = "Ricollega"
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = false
+        panel.begin { response in
+            guard response == .OK, let url = panel.url else { return }
+            dataManager.relinkProject(project.id, to: url)
+        }
+    }
+
     private func triggerSecureCopy() {
         launchSecureCopy(for: project.path, dataManager: dataManager)
-        secureCopyFeedback = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-            secureCopyFeedback = false
-        }
     }
 }
 
@@ -4397,7 +4463,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var statusItem: NSStatusItem?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        setupMenuBar()
+        if UserDefaults.standard.bool(forKey: "HideDockIcon") { setupMenuBar() }
         setupActivationPolicy()
     }
     
@@ -4473,7 +4539,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return false
+        return !UserDefaults.standard.bool(forKey: "HideDockIcon")
     }
 }
 

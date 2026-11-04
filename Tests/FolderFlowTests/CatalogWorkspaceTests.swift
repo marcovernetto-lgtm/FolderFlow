@@ -50,6 +50,36 @@ private final class WorkspaceFixture {
 
 final class CatalogWorkspaceTests: XCTestCase {
     @MainActor
+    func testRelinkPreservesProjectAndRestoresNewLocalPath() throws {
+        let fixture = try WorkspaceFixture(device: "A")
+        defer { fixture.defaults.removePersistentDomain(forName: fixture.domain); try? FileManager.default.removeItem(at: fixture.root) }
+        let project = try fixture.addProject()
+        try FileManager.default.removeItem(atPath: project.path)
+        fixture.manager.updateOnlineStatus()
+        let destination = fixture.root.appendingPathComponent("Nuovo disco/Cartella spostata")
+        try FileManager.default.createDirectory(at: destination, withIntermediateDirectories: true)
+        XCTAssertTrue(fixture.manager.relinkProject(project.id, to: destination))
+        let updated = try XCTUnwrap(fixture.manager.projects.first)
+        XCTAssertEqual(updated.id, project.id)
+        XCTAssertEqual(updated.name, project.name)
+        XCTAssertEqual(updated.comments, project.comments)
+        XCTAssertEqual(updated.billingStatus, .billed)
+        XCTAssertEqual(updated.date, project.date)
+        XCTAssertTrue(updated.isCompleted)
+        XCTAssertTrue(updated.isOnline)
+        XCTAssertFalse(updated.isMissing)
+        XCTAssertEqual(updated.path, destination.resolvingSymlinksInPath().path)
+        fixture.workspace.selectCatalog(try XCTUnwrap(fixture.workspace.active?.id))
+        XCTAssertEqual(fixture.manager.projects.first?.path, updated.path)
+        XCTAssertEqual(fixture.workspace.active?.projects.first?.sourcePath, updated.path)
+        XCTAssertFalse(fixture.manager.relinkProject(project.id, to: destination.appendingPathComponent("missing")))
+        XCTAssertEqual(fixture.manager.projects.first?.path, updated.path)
+        let other = try fixture.addProject(name: "26_11_04_Altro")
+        XCTAssertFalse(fixture.manager.relinkProject(project.id, to: URL(fileURLWithPath: other.path)))
+        XCTAssertEqual(fixture.manager.projects.first?.path, updated.path)
+    }
+
+    @MainActor
     func testImportedCatalogQueuesCloudAndRestoresAfterAccountSwitch() async throws {
         let a = try WorkspaceFixture(device: "A"), b = try WorkspaceFixture(device: "B")
         defer { a.defaults.removePersistentDomain(forName: a.domain); b.defaults.removePersistentDomain(forName: b.domain) }

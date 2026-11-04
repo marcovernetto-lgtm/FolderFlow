@@ -68,3 +68,13 @@ Con l'account connesso, FolderFlow crea una copia online a ogni avvio. Le copie 
 ---
 
 Realizzata da [Unshaped Studio](https://unshapedstudio.com/).
+
+## Progetti spostati e SecureCopy
+
+Se un progetto risulta offline o non trovato, apri il dettaglio e scegli **Ricollega cartella…**. Seleziona la cartella del progetto sul nuovo disco: FolderFlow aggiorna il percorso senza spostare file, mantenendo nome, note, date, completamento e fatturazione. Una cartella già assegnata a un altro progetto non può essere collegata due volte.
+
+**Avvia Copia Sicura** apre SecureCopy direttamente nella preparazione della copia con la cartella progetto come destinazione. Questo ingresso usa `--from-folderflow --destination <percorso>` e richiede la versione di SecureCopy che supporta l’integrazione. L’avvio normale di SecureCopy mantiene la schermata iniziale. Nessun trasferimento viene avviato automaticamente; le operazioni già attive mantengono le proprie destinazioni.
+
+Con “Solo barra dei menu” disattivato, FolderFlow usa il Dock senza icona nella barra dei menu e si chiude quando chiudi l’ultima finestra. Per usarla solo manualmente lascia disattivato anche “Avvia FolderFlow all’accesso”.
+
+Se SecureCopy non viene trovata premendo **Avvia Copia Sicura**, FolderFlow recupera il DMG dell’ultima release ufficiale adatto al Mac e chiede conferma. **Sì, scarica** apre nel browser il link diretto al file; **Annulla** non scarica nulla. Dopo l’installazione si può ripetere il comando. In caso di connessione assente o download non disponibile viene mostrato un errore.
